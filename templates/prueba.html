@@ -1,0 +1,73 @@
+[11:41 p. m., 26/11/2023] Ana ♥️: <form id="studentForm" action="/nuevo_estudiante" method="POST">
+    <!-- Form fields -->
+    <div>
+        <label for="nombre">Nombre y Apellido:</label>
+        <input type="text" id="nombre" name="nombre">
+    </div>
+    <div>
+        <label for="cedula">Cedula de identidad:</label>
+        <input type="text" id="cedula" name="cedula">
+    </div>
+    <div>
+        <label for="genero">Genero: </label>
+        <input type="radio" name="genero" id="hombre" value="Hombre" required> Hombre
+        <input type="radio" name="genero" id="mujer" value="Mujer" required> Mujer <br>
+        <br>
+    </div>
+    <div>
+        <label for="telefono">Telefono</label> <br>
+        <select name="codigo_telefono">
+            <option>0412</option>
+            <option>0424</option>
+            <option>0414</option>
+            <option>0426</option>
+            <option>0416</option>
+        </select>
+        <input type="text" id="telefono" name="telefono" maxlength="7" required onkeypress="return solonumeros(event)" onpaste="return false"><br>
+    </div>
+    <div>
+        <label for="correo">Email</label>
+        <input type="email" name="correo" id="correo" placeholder="pedroperez@gmail.com" required onclick="validarEmail(form.correo.value)"> <br> 
+        <br>
+    </div>
+    <div>
+        <label for="nacimiento">Fecha de nacimiento:</label>
+        <input type="date" id="nacimiento" name="nacimiento"><br><br>        
+    </div>
+    <div>
+        <label for="direccion">Direccion:</label>
+        <input type="text" id="direccion" name="direccion">
+    </div>
+    <div>
+        <label for="telefono_habitacion">Telefono de habitacion</label>
+        <input type="text" id="telefono_habitacion" name="telefono_habitacion" maxlength="11" required onkeypress="return solonumeros(event)" onpaste="return false"><br>
+    </div>
+    <div>
+        <label for="contacto_emergencia">Contacto de Emergencia</label> <br>
+        <select name="codigo_contacto">
+            <option>0412</option>
+            <option>0424</option>
+            <option>0414</option>
+            <option>0426</option>
+            <option>0416</option>
+        </select>
+        <input type="text" id="contacto_emergencia" name="contacto_emergencia" maxlength="7" required onkeypress="return solonumeros(event)" onpaste="return false"><br>
+    </div>
+    <div>
+        <label for="forma_ingreso">Forma de ingreso:</label> 
+        <br>
+        <input type="checkbox" name="forma_ingreso" id="cnu">CNU <br>
+        <input type="checkbox" name="forma_ingreso" id="prueba_interna">Prueba Interna <br>
+        <input type="checkbox" name="forma_ingreso" id="acta_convenio">Acta de Convenio <br>
+        <input type="checkbox" name="forma_ingreso" id="resolucion_158">Resolucion 158 <br>
+        <input type="checkbox" name="forma_ingreso" id="estudios_simultaneos">Estudios simultaneos <br>
+        <input type="checkbox" name="forma_ingreso" id="samuel_robinson">Samuel Robinson <br>
+        <input type="checkbox" name="forma_ingreso" id="equivalencia">Equivalencia <br>
+        <input type="checkbox" name="forma_ingreso" id="egresado">Egresado <br>
+        <input type="checkbox" name="forma_ingreso" id="otro">Otro <br>
+    </div>
+    
+    <!-- Add more form fields based on the Python code provided -->
+    <button class="button" type="submit">Inscribir</button>
+    <button class="button">Regresar</button>
+</form>

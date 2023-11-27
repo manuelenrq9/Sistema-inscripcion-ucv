@@ -14,6 +14,38 @@ class Todo(db.Model):
 
     def __repr__(self):
         return '<Task %r>' % self.id
+    
+class Estudiante(db.Model):
+    cod_estudiante = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(200), nullable=False)
+    cedula = db.Column(db.Integer)
+    nacimiento = db.Column(db.DateTime)
+    telefono = db.Column(db.Integer)
+    correo = db.Column(db.String(200), nullable=False)
+    fecha_inscripcion = db.Column(db.DateTime, default=datetime.utcnow)
+    direccion = db.Column(db.String(200), nullable=False)
+    forma_ingreso = db.Column(db.String(200), nullable=False)
+
+    def _repr_(self):
+        return '<Estudiante %r>' % self.cod_estudiante
+
+@app.route('/nuevo_estudiante', methods=['POST'])
+def nuevo_estudiante():
+    nombre = request.form['nombre']
+    cedula = request.form['cedula']
+    genero = request.form['genero']
+    codigo_telefono = request.form['codigo_telefono']
+    telefono = request.form['telefono']
+    correo = request.form['correo']
+    nacimiento = request.form['nacimiento']
+    direccion = request.form['direccion']
+    telefono_habitacion = request.form['telefono_habitacion']
+    codigo_contacto = request.form['codigo_contacto']
+    contacto_emergencia = request.form['contacto_emergencia']
+    forma_ingreso = request.form.getlist('forma_ingreso')
+    
+    nuevo_estudiante = Estudiante(nombre=nombre, cedula=cedula, genero=genero, codigo_telefono=codigo_telefono, telefono=telefono, correo=correo, nacimiento=nacimiento, direccion=direccion, telefono_habitacion=telefono_habitacion, codigo_contacto=codigo_contacto, contacto_emergencia=contacto_emergencia, forma_ingreso=forma_ingreso)
+    
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -30,8 +62,6 @@ def index():
     else:
         tasks = Todo.query.order_by(Todo.date_created).all()
         return render_template('index.html', tasks=tasks)
-    
-    
 
 @app.route('/delete/<int:id>')
 def delete(id):

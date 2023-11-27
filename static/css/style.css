@@ -1,0 +1,123 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+body{
+	background: #f1f1f1;
+}
+.login-box{
+	width: 280px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	color: #fff;
+	background: #000000af;
+	padding: 30px;
+	border-radius: 5px;
+	text-align: center;
+}
+.login-box h2{
+	margin: 0 0 30px;
+	padding: 0;
+	font-size: 22px;
+}
+.login-box .user-box{
+	position: relative;
+}
+.login-box .user-box input{
+	width: 100%;
+	padding: 10px 0;
+	font-size: 16px;
+	color: #fff;
+	margin-bottom: 30px;
+	border: none;
+	border-bottom: 1px solid #fff;
+	outline: none;
+	background: transparent;
+}
+.login-box .user-box label{
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px 0;
+	font-size: 16px;
+	color: #fff;
+	pointer-events: none;
+	transition: .5s;
+}
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label{
+	top: -20px;
+	left: 0;
+	color: #f0f403;
+	font-size: 12px;
+}
+.login-box button{
+	background: transparent;
+	border: none;
+	outline: none;
+	color: #fff;
+	background: #f0f403;
+	padding: 10px 20px;
+	cursor: pointer;
+	border-radius: 5px;
+}
+.login-box button:hover{
+	background: f0f403;
+}
+.login-box a{
+	position: relative;
+	display: inline-block;
+	padding: 10px 20px;
+	color: #f0f403;
+	margin-top: 40px;
+	text-decoration: none;
+	font-size: 16px;
+	cursor: pointer;
+}
+.login-box a:hover{
+	color: #f0f403;
+}
+.login-box a span{
+	position: absolute;
+	display: block;
+	height: 2px;
+	width: 0;
+	background: #f4e403;
+	transition: .5s;
+}
+.login-box a span:nth-child(1){
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+.login-box a span:nth-child(2){
+	top: 0;
+	right: 0;
+	width: 100%;
+}
+.login-box a span:nth-child(3){
+	bottom: 0;
+	right: 0;
+	width: 100%;
+}
+.login-box a span:nth-child(4){
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+.login-box a:hover span:nth-child(1){
+	width: 100%;
+}
+.login-box a:hover span:nth-child(2){
+	width: 100%;
+}
+.login-box a:hover span:nth-child(3){
+	width: 100%;
+}
+.login-box a:hover span:nth-child(4){
+	width: 100%;
+}

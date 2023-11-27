@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Ingreso</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 650px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        input[type="text"], input[type="date"], input[type="number"], input[type="email"]{
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        h1, h2{
+            text-align: center;
+        }
+
+        
+        
+        /* Add more CSS styles for the form elements */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SISGEA EEUCV</h1>
+        <h2>Estudiante nuevo ingreso</h2>
+        <form id="studentForm" method="post" action="{% url 'insert_student' %}">
+            <!-- Form fields -->
+            <div>
+                <label for="NOMBRE">Nombre y Apellido:</label>
+                <input type="text" id="NOMBRE" name="NOMBRE">
+            </div>
+            <div>
+                <label for="CEDULA">Cedula de identidad:</label>
+                <input type="text" id="CEDULA" name="CEDULA">
+            </div>
+            <div>
+                <label for="GENERO">Genero: </label>
+                <input type="radio" name="sexo" id="hombre" value="Hombre" required> Hombre
+                <input type="radio" name="sexo" id="mujer" value="Mujer" required> Mujer <br>
+                <br>
+            </div>
+            <div>
+                <label for="TELEFONO">Telefono</label> <br>
+                <select>
+                    <option>0412</option>
+                    <option>0424</option>
+                    <option>0414</option>
+                    <option>0426</option>
+                    <option>0416</option>
+                </select>
+                <input type="text" id="telefono" name="telefono" maxlength="7" required onkeypress="return solonumeros(event)" onpaste="return false"><br>
+            </div>
+            <div>
+                <label for="CORREO">Email</label>
+                <input type="email" name="CORREO" id="CORREO" placeholder="pedroperez@gmail.com" required onclick="validarEmail(form.correo.value)"> <br> 
+                <br>
+            </div>
+            <div>
+                <label for="dob">Fecha de nacimiento:</label>
+                <input type="date" id="dob" name="dob"><br><br>        
+            </div>
+            <div>
+                <label for="DIRECCION">Direccion:</label>
+                <input type="text" id="DIRECCION" name="DIRECCION">
+            </div>
+            <div>
+                <label for="TELEFONOH">Telefono de habitacion</label>
+                <input type="text" id="telefono" name="telefono" maxlength="11" required onkeypress="return solonumeros(event)" onpaste="return false"><br>
+            </div>
+            <div>
+                <label for="CONTACTO">Contacto de Emergencia</label> <br>
+                <select>
+                    <option>0412</option>
+                    <option>0424</option>
+                    <option>0414</option>
+                    <option>0426</option>
+                    <option>0416</option>
+                </select>
+                <input type="text" id="telefono" name="telefono" maxlength="7" required onkeypress="return solonumeros(event)" onpaste="return false"><br>
+            </div>
+            <div>
+                <label for="INGRESO">Forma de ingreso:</label> 
+                <br>
+                <input type="checkbox" name="ingreso" id="ingreso">CNU <br>
+                <input type="checkbox">Prueba Interna <br>
+                <input type="checkbox">Acta de Convenio <br>
+                <input type="checkbox">Resolucion 158 <br>
+                <input type="checkbox">Estudios simultaneos <br>
+                <input type="checkbox">Samuel Robinson <br>
+                <input type="checkbox">Equivalencia <br>
+                <input type="checkbox">Egresado <br>
+                <input type="checkbox">Otro <br>
+            </div>
+            
+            <!-- Add more form fields based on the Python code provided -->
+            <button class="button" type="submit">Inscribir</button>
+            <a href="C:\Users\dell\Desktop\Vista\main.html"><button class="button">Regresar</button></a>
+        </form>
+    </div>
+</body>
+</html>
