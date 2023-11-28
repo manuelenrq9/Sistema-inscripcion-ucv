@@ -54,11 +54,11 @@
     <div class="container">
         <h1>SISGEA EEUCV</h1>
         <h2>Estudiante nuevo ingreso</h2>
-        <form id="studentForm" method="post" action="{% url 'insert_student' %}">
+        <form id="studentForm" method="POST" action="/nuevo_ingreso">
             <!-- Form fields -->
             <div>
                 <label for="NOMBRE">Nombre y Apellido:</label>
-                <input type="text" id="NOMBRE" name="NOMBRE">
+                <input type="text" name="NOMBRE" id="NOMBRE" >
             </div>
             <div>
                 <label for="CEDULA">Cedula de identidad:</label>
@@ -79,7 +79,7 @@
                     <option>0426</option>
                     <option>0416</option>
                 </select>
-                <input type="text" id="telefono" name="telefono" maxlength="7" required onkeypress="return solonumeros(event)" onpaste="return false"><br>
+                <input type="text" id="TELEFONO" name="TELEFONO" maxlength="7" required onkeypress="return solonumeros(event)" onpaste="return false"><br>
             </div>
             <div>
                 <label for="CORREO">Email</label>
@@ -87,40 +87,25 @@
                 <br>
             </div>
             <div>
-                <label for="dob">Fecha de nacimiento:</label>
-                <input type="date" id="dob" name="dob"><br><br>        
+                <label for="DOB">Fecha de nacimiento:</label>
+                <input type="date" id="DOB" name="DOB"><br><br>        
             </div>
             <div>
                 <label for="DIRECCION">Direccion:</label>
                 <input type="text" id="DIRECCION" name="DIRECCION">
             </div>
             <div>
-                <label for="TELEFONOH">Telefono de habitacion</label>
-                <input type="text" id="telefono" name="telefono" maxlength="11" required onkeypress="return solonumeros(event)" onpaste="return false"><br>
-            </div>
-            <div>
-                <label for="CONTACTO">Contacto de Emergencia</label> <br>
-                <select>
-                    <option>0412</option>
-                    <option>0424</option>
-                    <option>0414</option>
-                    <option>0426</option>
-                    <option>0416</option>
-                </select>
-                <input type="text" id="telefono" name="telefono" maxlength="7" required onkeypress="return solonumeros(event)" onpaste="return false"><br>
-            </div>
-            <div>
                 <label for="INGRESO">Forma de ingreso:</label> 
                 <br>
-                <input type="checkbox" name="ingreso" id="ingreso">CNU <br>
-                <input type="checkbox">Prueba Interna <br>
-                <input type="checkbox">Acta de Convenio <br>
-                <input type="checkbox">Resolucion 158 <br>
-                <input type="checkbox">Estudios simultaneos <br>
-                <input type="checkbox">Samuel Robinson <br>
-                <input type="checkbox">Equivalencia <br>
-                <input type="checkbox">Egresado <br>
-                <input type="checkbox">Otro <br>
+                <input type="checkbox" name="INGRESO" id="INGRESO" value="CNU">CNU <br>
+                <input type="checkbox" name="INGRESO" id="INGRESO" value="Prueba Interna">Prueba Interna <br>
+                <input type="checkbox" name="INGRESO" id="INGRESO" value="Acta de Convenio">Acta de Convenio <br>
+                <input type="checkbox" name="INGRESO" id="INGRESO" value="Resolucion 158">Resolucion 158 <br>
+                <input type="checkbox" name="INGRESO" id="INGRESO" value="Estudios simultaneos">Estudios simultaneos <br>
+                <input type="checkbox" name="INGRESO" id="INGRESO" value="Samuel Robinson">Samuel Robinson <br>
+                <input type="checkbox" name="INGRESO" id="INGRESO" value="Equivalencia">Equivalencia <br>
+                <input type="checkbox" name="INGRESO" id="INGRESO" value="Egresado">Egresado <br>
+                <input type="checkbox" name="INGRESO" id="INGRESO" value="Otro">Otro <br>
             </div>
             
             <!-- Add more form fields based on the Python code provided -->
