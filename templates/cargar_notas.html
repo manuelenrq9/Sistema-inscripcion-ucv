@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Carga de Notas</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 style="text-align: center">{{estudiante.nombre}} - {{asignatura.nombre}}</h1>    
+    <h4>Ingresar calificación del estudiante:</h4> 
+    <br>
+
+    <form id="cargaNotas" method="POST" action="/carga_notas/{{estudiante.cod_estudiante}}/{{asignatura.cod_asig}}">
+        <div>
+            <label for="CARGA"></label>
+            <input type="number" name="CARGA" id="CARGA" >
+        </div>
+        <button class="button" type="submit">Cargar calificación</button>
+    </form>       
+
+</div>
+{% endblock %}

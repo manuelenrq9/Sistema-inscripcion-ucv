@@ -1,7 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -56,12 +55,23 @@ class Cursando(db.Model):
         return '<%r Cursando  %r>' % (self.cod_estudiante, self.cod_asig)
 
 
-class Aprobado(db.Model):
+class Calificacion(db.Model):
     cod_estudiante = db.Column(db.Integer, db.ForeignKey('estudiante.cod_estudiante'), primary_key=True)
     cod_asig = db.Column(db.Integer, db.ForeignKey('asignatura.cod_asig'), primary_key=True)
+    nota = db.Column(db.Integer)
+    aprobado = aprobado = db.Column(db.Boolean)
+    
+    def __init__(self, cod_estudiante, cod_asig, nota):
+        self.cod_estudiante = cod_estudiante
+        self.cod_asig = cod_asig
+        self.nota = nota
+        self.aprobado = self.calcular_aprobacion()
 
+    def calcular_aprobacion(self):
+        return self.nota >= 10
+    
     def __repr__(self):
-        return '<%r Aprobado %r>' % (self.cod_estudiante,self.cod_asig)
+        return '< Calificacion de %r en %r es %r (%r)>' % (self.cod_estudiante,self.cod_asig,self.nota,self.aprobado)
     
 class Requisito(db.Model):
     cod_requisito = db.Column(db.Integer, db.ForeignKey('asignatura.cod_asig'), primary_key=True)
@@ -148,6 +158,47 @@ def info_estudiante(id):
         # Consulta para obtener solo los registros de asignaturas que esté cursando el estudiante
         return render_template('info_estudiante.html', asignaturas=asignaturas, estudiante=estudiante)
 
+@app.route('/asignaturas_notas', methods=['GET', 'POST'])
+def listar_asignaturas():
+    if request.method == 'POST':
+        pass
+    else:
+        asignaturas = Asignatura.query.all()
+        return render_template('asignaturas_notas.html', asignaturas=asignaturas)
+    
+@app.route('/estudiantes_notas/<int:id>', methods=['GET', 'POST'])
+def listar_estudiantes_notas(id):
+    asignatura = Asignatura.query.get_or_404(id)
+    cursando = Cursando.query.filter_by(cod_asig=asignatura.cod_asig).all()
+    codigos_estudiantes = [estudiante.cod_estudiante for estudiante in cursando]
+    estudiantes = Estudiante.query.filter(Estudiante.cod_estudiante.in_(codigos_estudiantes)).all()
+    if request.method == 'POST':
+        pass
+    else:
+        estudiantes = Estudiante.query.all()
+        return render_template('estudiantes_notas.html', estudiantes=estudiantes, asignatura = asignatura)
+    
+@app.route('/carga_notas/<int:idEst>/<int:idAsig>', methods=['GET', 'POST'])
+def cargar_nota(idEst,idAsig):
+    estudiante =  Estudiante.query.get_or_404(idEst)
+    asignatura = Asignatura.query.get_or_404(idAsig)
+    cursando = Cursando.query.filter_by(cod_estudiante=estudiante.cod_estudiante, cod_asig=asignatura.cod_asig).first()
+    if request.method == 'POST':
+        nota = int(request.form['CARGA'])
+        calificacion = Calificacion(idEst,idAsig,nota)
+        try:
+            db.session.add(calificacion)
+            db.session.commit()
+            db.session.delete(cursando)
+            db.session.commit()
+            return redirect('/')
+        except Exception as e:
+             print(e)
+             return 'Hubo un problema actualizando la calificación: ' + str(e)
+       
+    else:
+        return render_template('cargar_notas.html', estudiante=estudiante, asignatura=asignatura)
+    
 
 @app.route('/delete/<int:id>')
 def delete(id):

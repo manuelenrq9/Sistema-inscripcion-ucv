@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Asignaturas</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Asignaturas</h1>
+    {% if asignaturas|length < 1 %}
+    <h4 style="text-align: center">No hay asignaturas registradas aún!</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Código</th>
+            <th>Asignatura</th>
+        </tr>
+        {% for asignatura in asignaturas %}
+        <tr>
+            <td>{{ asignatura.cod_asig }}</td>
+            <td>{{ asignatura.nombre }}</td>
+            <td>
+                <a href="/estudiantes_notas/{{asignatura.cod_asig}}">Cargar calificaciones</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+</div>
+{% endblock %}
