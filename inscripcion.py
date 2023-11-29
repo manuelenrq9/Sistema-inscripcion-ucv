@@ -53,21 +53,22 @@ class Cursando(db.Model):
     cod_asig = db.Column(db.Integer, db.ForeignKey('asignatura.cod_asig'), primary_key=True)
 
     def __repr__(self):
-        return '<%r Cursando %r>' % self.cod_estudiante % self.cod_asig
+        return '<%r Cursando  %r>' % (self.cod_estudiante, self.cod_asig)
+
 
 class Aprobado(db.Model):
     cod_estudiante = db.Column(db.Integer, db.ForeignKey('estudiante.cod_estudiante'), primary_key=True)
     cod_asig = db.Column(db.Integer, db.ForeignKey('asignatura.cod_asig'), primary_key=True)
 
     def __repr__(self):
-        return '<%r Aprobado %r>' % self.cod_estudiante % self.cod_asig
+        return '<%r Aprobado %r>' % (self.cod_estudiante,self.cod_asig)
     
 class Requisito(db.Model):
     cod_requisito = db.Column(db.Integer, db.ForeignKey('asignatura.cod_asig'), primary_key=True)
     cod_asig = db.Column(db.Integer, db.ForeignKey('asignatura.cod_asig'), primary_key=True)
 
     def __repr__(self):
-        return '<%r Requisito %r>' % self.cod_asig % self.cod_asig
+        return '<%r Requisito de %r>' % (self.cod_requisito,self.cod_asig)
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -126,6 +127,27 @@ def asignatura_nueva():
              return 'Hubo un problema añadiendo la asignatura: ' + str(e)
     else:
         return render_template('asignatura.html')
+    
+@app.route('/estudiantes', methods=['GET', 'POST'])
+def listar_estudiantes():
+    if request.method == 'POST':
+        pass
+    else:
+        estudiantes = Estudiante.query.all()
+        return render_template('estudiantes.html', estudiantes=estudiantes)
+    
+@app.route('/info_estudiante/<int:id>', methods=['GET', 'POST'])
+def info_estudiante(id):
+    estudiante = Estudiante.query.get_or_404(id)
+    cursando = Cursando.query.filter_by(cod_estudiante=estudiante.cod_estudiante).all()
+    codigos_asignaturas = [curso.cod_asig for curso in cursando]
+    asignaturas = Asignatura.query.filter(Asignatura.cod_asig.in_(codigos_asignaturas)).all()
+    if request.method == 'POST':
+        pass
+    else:
+        # Consulta para obtener solo los registros de asignaturas que esté cursando el estudiante
+        return render_template('info_estudiante.html', asignaturas=asignaturas, estudiante=estudiante)
+
 
 @app.route('/delete/<int:id>')
 def delete(id):
@@ -153,7 +175,6 @@ def update(id):
 
     else:
         return render_template('update.html', task=task)
-
 
 def insert_asignatura(asignatura):
     with app.app_context():

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Estudiantes</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Estudiantes</h1>
+    {% if estudiantes|length < 1 %}
+    <h4 style="text-align: center">No hay estudiantes registrados aún!</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Estudiante</th>
+            <th>C.I.</th>
+        </tr>
+        {% for estudiante in estudiantes %}
+        <tr>
+            <td>{{ estudiante.nombre }}</td>
+            <td>{{ estudiante.cedula }}</td>
+            <td>
+                <a href="/info_estudiante/{{estudiante.cod_estudiante}}">Información</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+</div>
+{% endblock %}
