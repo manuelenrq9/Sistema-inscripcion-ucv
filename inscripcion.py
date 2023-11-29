@@ -169,13 +169,13 @@ def listar_asignaturas():
 @app.route('/estudiantes_notas/<int:id>', methods=['GET', 'POST'])
 def listar_estudiantes_notas(id):
     asignatura = Asignatura.query.get_or_404(id)
+    
     cursando = Cursando.query.filter_by(cod_asig=asignatura.cod_asig).all()
-    codigos_estudiantes = [estudiante.cod_estudiante for estudiante in cursando]
+    codigos_estudiantes = [cursando.cod_estudiante for cursando in cursando]
     estudiantes = Estudiante.query.filter(Estudiante.cod_estudiante.in_(codigos_estudiantes)).all()
     if request.method == 'POST':
         pass
     else:
-        estudiantes = Estudiante.query.all()
         return render_template('estudiantes_notas.html', estudiantes=estudiantes, asignatura = asignatura)
     
 @app.route('/carga_notas/<int:idEst>/<int:idAsig>', methods=['GET', 'POST'])
@@ -235,22 +235,105 @@ def insert_asignatura(asignatura):
                 db.session.add(asignatura)
                 db.session.commit()
             else:
-                print('La asignatura con el código {} ya existe, se omitirá la inserción.'.format(asignatura.cod_asig))
+                print('')
         except Exception as e:
             print('Hubo un problema añadiendo la asignatura: ' + str(e))
         
 if __name__ == "__main__":
-    bioquimica = Asignatura(cod_asig=1150,nombre="Bioquimica",unidad_creditos=3)
+    
+    ##  PRIMER SEMESTRE  ##
+    bioquimica = Asignatura(cod_asig=1150,nombre="Bioquímica",unidad_creditos=3)
     insert_asignatura(bioquimica)
-    morfofisiologiaI = Asignatura(cod_asig=1151,nombre="Morfofisiologia I",unidad_creditos=4)
+    morfofisiologiaI = Asignatura(cod_asig=1151,nombre="Morfofisiología I",unidad_creditos=4)
     insert_asignatura(morfofisiologiaI)
-    socioantropologia = Asignatura(cod_asig=1368,nombre="Socioantropologia",unidad_creditos=3)
+    socioantropologia = Asignatura(cod_asig=1368,nombre="Socioantropología",unidad_creditos=3)
     insert_asignatura(socioantropologia)
-    evTendencia = Asignatura(cod_asig=1369,nombre="Evolucion y Tendencia en la Enfermeria",unidad_creditos=4)
+    evTendencia = Asignatura(cod_asig=1369,nombre="Evolución y Tendencia en la Enfermería",unidad_creditos=4)
     insert_asignatura(evTendencia)
     desPersonal = Asignatura(cod_asig=1478,nombre="Desarrollo Personal",unidad_creditos=1)
     insert_asignatura(desPersonal)
-    comLengua = Asignatura(cod_asig=1479,nombre="Comunicacion y Lengua",unidad_creditos=2)
+    comLengua = Asignatura(cod_asig=1479,nombre="Comunicación y Lengua",unidad_creditos=2)
     insert_asignatura(comLengua)
+    
+    ##  SEGUNDO SEMESTRE  ##
+    micro =  Asignatura(cod_asig=2152,nombre="Microbiología",unidad_creditos=3)
+    insert_asignatura(micro)
+    morfoII = Asignatura(cod_asig=2153,nombre="Morfofisiología II",unidad_creditos=4)
+    insert_asignatura(morfoII)
+    enf_basica = Asignatura(cod_asig=2256,nombre="Enfermería Básica",unidad_creditos=8)
+    insert_asignatura(enf_basica)
+    meto_estadistica = Asignatura(cod_asig=2370,nombre="Metodología Estadística",unidad_creditos=2)
+    insert_asignatura(meto_estadistica)
+    psico_general = Asignatura(cod_asig=2480,nombre="Psicología General",unidad_creditos=2)
+    insert_asignatura(psico_general)
+    
+    ##  TERCER SEMESTRE  ##
+    fisio = Asignatura(cod_asig=3154,nombre="Fisiopatología",unidad_creditos=3)
+    insert_asignatura(fisio)
+    farmaco = Asignatura(cod_asig=3155,nombre="Farmacología",unidad_creditos=4)
+    insert_asignatura(farmaco)
+    enf_medica = Asignatura(cod_asig=3257,nombre="Enfermería Médica",unidad_creditos=10)
+    insert_asignatura(enf_medica)
+    bio_epi = Asignatura(cod_asig=3373,nombre="Bioestadística y Epidemiología",unidad_creditos=3)
+    insert_asignatura(bio_epi)
+    inglesI = Asignatura(cod_asig=3481, nombre="Inglés I",unidad_creditos=2)
+    insert_asignatura(inglesI)
+    
+    ##  CUARTO SEMESTRE  ##
+    mental_psiquiatria = Asignatura(cod_asig=4258,nombre="Enfermería Salud Mental y Psquiatría",unidad_creditos=9)
+    insert_asignatura(mental_psiquiatria)
+    meto_investigacion = Asignatura(cod_asig=4371,nombre="Metodología de Investigación",unidad_creditos=3)
+    insert_asignatura(meto_investigacion)
+    materno1 = Asignatura(cod_asig=4372,nombre="Enfermería Materno Infantil Atención Comunitaria I",unidad_creditos=10)
+    insert_asignatura(materno1)
+    inglesII = Asignatura(cod_asig=4482,nombre="Inglés Instrumental II",unidad_creditos=2)
+    insert_asignatura(inglesII)
+    
+    ##  QUINTO SEMESTRE  ##
+    enf_quirurgica = Asignatura(cod_asig=5259,nombre="Enfermería Quirúrgica",unidad_creditos=10)
+    insert_asignatura(enf_quirurgica)
+    materno2 = Asignatura(cod_asig=5374,nombre="Enfermería Materno Infantil y Atención Comunitaria II",unidad_creditos=9)
+    insert_asignatura(materno2)
+    admi_atencion_enf = Asignatura(cod_asig=5375,nombre="Administración de la Atencion de Enfermería",unidad_creditos=4)
+    insert_asignatura(admi_atencion_enf)
+    
+    ##  SEXTO SEMESTRE  ##
+    internado = Asignatura(cod_asig=6260,nombre="Internado Rotatorio",unidad_creditos=10)
+    insert_asignatura(internado)
+    servicio_comu = Asignatura(cod_asig=6376,nombre="Servicio Comunitario",unidad_creditos=0)
+    insert_asignatura(servicio_comu)
+    
+    ##  SEPTIMO SEMESTRE  ##
+    area_critica = Asignatura(cod_asig=7261,nombre="Concentración Clínica de Enfermería Área Crítica",unidad_creditos=18)
+    insert_asignatura(area_critica)
+    etica = Asignatura(cod_asig=7264,nombre="Ética en Enfermería - Electiva I",unidad_creditos=4)
+    insert_asignatura(etica)
+    nutricion =  Asignatura(cod_asig=7283,nombre="Nutrición en Enfermería - Electiva I",unidad_creditos=4)
+    insert_asignatura(nutricion)
+    
+    ##  OCTAVO SEMESTRE  ##
+    geriatria =  Asignatura(cod_asig=8262,nombre="Geriatría y Gerontología - Electiva II",unidad_creditos=4)
+    insert_asignatura(geriatria)
+    salud_ocupa = Asignatura(cod_asig=8385,nombre="Salud Ocupacional - Electiva II",unidad_creditos=4)
+    insert_asignatura(salud_ocupa)
+    seminario =  Asignatura(cod_asig=8263,nombre="Seminario Taller en Enfermería",unidad_creditos=9)
+    insert_asignatura(seminario)
+    inv_aplicadaI = Asignatura(cod_asig=8265,nombre="Investigación Aplicada área Enfermería I",unidad_creditos=7)
+    insert_asignatura(inv_aplicadaI)
+    
+    ##  NOVENO SEMESTRE  ##
+    inv_aplicadaII = Asignatura(cod_asig=9266,nombre="Investigación Aplicada en Enfermería II",unidad_creditos=6)
+    insert_asignatura(inv_aplicadaII)
+    enf_comunitaria = Asignatura(cod_asig=9376,nombre="Enfermería Comunitaria III",unidad_creditos=9)
+    insert_asignatura(enf_comunitaria)
+    admi_servicios = Asignatura(cod_asig=9377,nombre="Administración de los Servicios de Enfermería",unidad_creditos=9)
+    insert_asignatura(admi_servicios)
+    
+    ##  DECIMO SEMESTRE  ##
+    pasantia = Asignatura(cod_asig=10267,nombre="Pasantías por áreas de Interes",unidad_creditos=10)
+    insert_asignatura(pasantia)
+    teg = Asignatura(cod_asig=10268,nombre="Trabajo Especial de Grado",unidad_creditos=0)
+    insert_asignatura(teg)
+    
     app.run(debug=True)
     
