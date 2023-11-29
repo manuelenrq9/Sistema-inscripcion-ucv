@@ -37,16 +37,23 @@
             <td>{{estudiante.forma_ingreso}}</td>
         </tr>
     </table>
+    <br>
+    <br>
+    <table>
         <tr>
-            <th>Asignaturas en curso</th>
-            <br>
-            {% for asignatura in asignaturas %}
-            <td>{{asignatura.nombre}}: {{asignatura.cod_asig}}</td>
-            <br>
-            {% endfor%}
-        
-
+            <th>Asignaturas inscritas</th>
         </tr>
-    
+    </table>
+    <table>
+        <tr>
+            <th>Código</th> <th>Nombre</th>
+        </tr>
+        {% for asignatura in asignaturas %}
+        <tr>
+            <td>{{asignatura.cod_asig}}:</td>
+            <td>{{asignatura.nombre}}</td>
+        </tr>
+        {% endfor%}
+    </table>
 </div>
 {% endblock %}
