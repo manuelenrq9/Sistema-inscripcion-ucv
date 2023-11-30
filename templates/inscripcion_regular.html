@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Inscripcion de estudiante Regular</title>
+<style>
+    .table-container {
+      display: flex;
+    }
+    table {
+      border: 1px solid black;
+      margin-right: 20px;
+
+    }
+
+    h1{
+        text-align: center;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+
+<div class="content2">
+    <h1 style="text-align: center">Inscripcion de estudiante Regular</h1>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Cedula</th>
+        </tr>
+        <tr>
+            <td>{{estudiante.nombre}}</td>
+            <td>{{estudiante.cedula}}</td>
+        </tr>
+    </table>
+
+</div>
+
+<div class="content">
+    
+    <br>
+    <br>
+
+    <h1 >Selecciona asignaturas a inscribir </h1>
+    <div class="table-container">
+        <table>
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Acción</th>
+          </tr>
+          {% for asignatura in asignaturas %}
+          <tr>
+            <td>{{asignatura.cod_asig}}:</td>
+            <td>{{asignatura.nombre}}</td>
+            <td><button>Inscribir</button></td>
+          </tr>
+          {% endfor%}
+        </table>
+      </div>
+</div>
+{% endblock %}

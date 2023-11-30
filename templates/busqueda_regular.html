@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Ingreso</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 650px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        input[type="text"], input[type="date"], input[type="number"], input[type="email"]{
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        h1, h2{
+            text-align: center;
+        }
+
+        
+        
+        /* Add more CSS styles for the form elements */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SISGEA EEUCV</h1>
+        <h2>Estudiante regular</h2>
+        <form id="studentForm" method="POST" action="/busqueda_regular">
+            <!-- Form fields -->
+            <div>
+                <label for="CEDULA">Cédula de identidad del estudiante:</label>
+                <input type="text" pattern="[0-9]*" inputmode="numeric" name="CEDULA" id="CEDULA">
+            </div>
+            <!-- Add more form fields based on the Python code provided -->
+            <button class="button" type="submit">Buscar</button>
+        </form>
+        
+        <div>
+            {% if estudiante %}
+                <p>Estudiante: {{ estudiante.nombre }}  C.I:{{estudiante.cedula}}</p>
+                <button class="button" onclick="inscribir()">Inscribir</button>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+</html>
+
+<script>
+    function inscribir() {
+        window.location.href = "/inscripcion_regular/{{estudiante.cod_estudiante}}";
+    }
+</script>
