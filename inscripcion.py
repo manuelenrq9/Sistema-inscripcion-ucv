@@ -238,9 +238,20 @@ def insert_asignatura(asignatura):
                 print('')
         except Exception as e:
             print('Hubo un problema añadiendo la asignatura: ' + str(e))
+            
+def insert_requisito(requisito):
+    with app.app_context():
+        try:
+            existing_requisito = Requisito.query.filter_by(cod_requisito=requisito.cod_requisito, cod_asig=requisito.cod_asig).first()
+            if existing_requisito is None:
+                db.session.add(requisito)
+                db.session.commit()
+            else:
+                print('')
+        except Exception as e:
+            print('Hubo un problema añadiendo la asignatura: ' + str(e))
         
-if __name__ == "__main__":
-    
+def asignaturas_enfermeria():
     ##  PRIMER SEMESTRE  ##
     bioquimica = Asignatura(cod_asig=1150,nombre="Bioquímica",unidad_creditos=3)
     insert_asignatura(bioquimica)
@@ -330,10 +341,153 @@ if __name__ == "__main__":
     insert_asignatura(admi_servicios)
     
     ##  DECIMO SEMESTRE  ##
-    pasantia = Asignatura(cod_asig=10267,nombre="Pasantías por áreas de Interes",unidad_creditos=10)
+    pasantia = Asignatura(cod_asig=100267,nombre="Pasantías por áreas de Interes",unidad_creditos=10)
     insert_asignatura(pasantia)
-    teg = Asignatura(cod_asig=10268,nombre="Trabajo Especial de Grado",unidad_creditos=0)
+    teg = Asignatura(cod_asig=100268,nombre="Trabajo Especial de Grado",unidad_creditos=0)
     insert_asignatura(teg)
+ 
+ #################################   
+class Requisito(db.Model):
+    cod_requisito = db.Column(db.Integer, db.ForeignKey('asignatura.cod_asig'), primary_key=True)
+    cod_asig = db.Column(db.Integer, db.ForeignKey('asignatura.cod_asig'), primary_key=True)
+ ##################################   
     
+def requisitos_enfermeria():
+    #Segundo Semestre
+    micro_1 = Requisito(cod_requisito=1150,cod_asig=2152)
+    insert_requisito(micro_1) 
+    morfoII_1 = Requisito(cod_requisito=1150, cod_asig=2153)
+    insert_requisito(morfoII_1)
+    morfoII_2 = Requisito(cod_requisito=1151, cod_asig=2153)
+    insert_requisito(morfoII_2)
+    enfBasica_1 = Requisito(cod_requisito=1150, cod_asig=2256)
+    insert_requisito(enfBasica_1)
+    enfBasica_2 = Requisito(cod_requisito=1151, cod_asig=2256)
+    insert_requisito(enfBasica_2)
+    enfBasica_3 = Requisito(cod_requisito=1369, cod_asig=2256)
+    insert_requisito(enfBasica_3)
+    metodoEst_1 = Requisito(cod_requisito=1369, cod_asig=2370)
+    insert_requisito(metodoEst_1)
+    metodoEst_2 = Requisito(cod_requisito=1150, cod_asig=2370)
+    insert_requisito(metodoEst_2)
+    metodoEst_3 = Requisito(cod_requisito=1368, cod_asig=2370)
+    insert_requisito(metodoEst_3)
+    psicoGeneral = Requisito(cod_requisito=1478,cod_asig=2480)
+    insert_requisito(psicoGeneral)
+    
+    #Tercer Semestre
+    fisio = Requisito(cod_requisito=2153,cod_asig=3154)
+    insert_requisito(fisio)
+    farmaco_1 = Requisito(cod_requisito=1150,cod_asig=3155)
+    insert_requisito(farmaco_1)
+    farmaco_2 = Requisito(cod_requisito=1151,cod_asig=3155)
+    insert_requisito(farmaco_2)
+    EnfMedica= Requisito(cod_requisito=2256,cod_asig=3257)
+    insert_requisito(EnfMedica)
+    bioEpi= Requisito(cod_requisito=2370,cod_asig=3373)
+    insert_requisito(bioEpi)
+    inglesI= Requisito(cod_requisito=1479,cod_asig=3481)
+    insert_requisito(inglesI)
+    
+    #Cuarto Semestre
+    mentalyPsiq= Requisito(cod_requisito=3257,cod_asig=4258)
+    insert_requisito(mentalyPsiq)
+    metodInv= Requisito(cod_requisito=2370,cod_asig=4371)
+    insert_requisito(metodInv)
+    maternoI= Requisito(cod_requisito=3257,cod_asig=4372)
+    insert_requisito(maternoI)
+    inglesII= Requisito(cod_requisito=3481,cod_asig=4482)
+    insert_requisito(inglesII)
+    
+    #Quinto Semestre
+    enfQuirur_1= Requisito(cod_requisito=3257,cod_asig=5259)
+    insert_requisito(enfQuirur_1)
+    enfQuirur_2= Requisito(cod_requisito=4258,cod_asig=5259)
+    insert_requisito(enfQuirur_2)
+    enfQuirur_3= Requisito(cod_requisito=4372,cod_asig=5259)
+    insert_requisito(enfQuirur_3)
+    maternoII_1= Requisito(cod_requisito=4258,cod_asig=5374)
+    insert_requisito(maternoII_1)
+    maternoII_2= Requisito(cod_requisito=4372,cod_asig=5374)
+    insert_requisito(maternoII_2)
+    adminEnf_1= Requisito(cod_requisito=3257,cod_asig=5375)
+    insert_requisito(adminEnf_1)
+    adminEnf_2= Requisito(cod_requisito=4258,cod_asig=5375)
+    insert_requisito(adminEnf_2)
+    adminEnf_3= Requisito(cod_requisito=4372,cod_asig=5375)
+    insert_requisito(adminEnf_3)
+    
+    #Sexto Semestre
+    interRot_1= Requisito(cod_requisito=3373,cod_asig=6260)
+    insert_requisito(interRot_1)
+    interRot_2= Requisito(cod_requisito=4258,cod_asig=6260)
+    insert_requisito(interRot_2)
+    interRot_3= Requisito(cod_requisito=4371,cod_asig=6260)
+    insert_requisito(interRot_3)
+    interRot_4= Requisito(cod_requisito=4372,cod_asig=6260)
+    insert_requisito(interRot_4)
+    interRot_5= Requisito(cod_requisito=5259,cod_asig=6260)
+    insert_requisito(interRot_5)
+    interRot_6= Requisito(cod_requisito=5374,cod_asig=6260)
+    insert_requisito(interRot_6)
+    servCom_1= Requisito(cod_requisito=3373,cod_asig=6261)
+    insert_requisito(servCom_1)
+    servCom_2= Requisito(cod_requisito=4258,cod_asig=6261)
+    insert_requisito(servCom_2)
+    servCom_3= Requisito(cod_requisito=4371,cod_asig=6261)
+    insert_requisito(servCom_3)
+    servCom_4= Requisito(cod_requisito=4372,cod_asig=6261)
+    insert_requisito(servCom_4)
+    servCom_5= Requisito(cod_requisito=5259,cod_asig=6261)
+    insert_requisito(servCom_5)
+    servCom_6= Requisito(cod_requisito=5374,cod_asig=6261)
+    insert_requisito(servCom_6)
+    
+    #Septimo Semestre
+    areaCrit_1 = Requisito(cod_requisito=6260,cod_asig=7261)
+    insert_requisito(areaCrit_1)
+    areaCrit_2 = Requisito(cod_requisito=6261,cod_asig=7261)
+    insert_requisito(areaCrit_2)
+    etica_1 = Requisito(cod_requisito=6260,cod_asig=7264)
+    insert_requisito(etica_1)
+    etica_2 = Requisito(cod_requisito=6261,cod_asig=7264)
+    insert_requisito(etica_2)
+    nutricion_1 = Requisito(cod_requisito=6260,cod_asig=7283)
+    insert_requisito(nutricion_1)
+    nutricion_2 = Requisito(cod_requisito=6261,cod_asig=7283)
+    insert_requisito(nutricion_2)
+    
+    #Octavo Semestre
+    geriatria = Requisito(cod_requisito=7264,cod_asig=8262)
+    insert_requisito(geriatria)
+    seminario= Requisito(cod_requisito=7261,cod_asig=8263)
+    insert_requisito(seminario) 
+    invApliI = Requisito(cod_requisito=7261,cod_asig=8265)
+    insert_requisito(invApliI)
+    saludOcup = Requisito(cod_requisito=7283,cod_asig=8385)
+    insert_requisito(saludOcup)
+    
+    #Noveno Semestre
+    invApliII = Requisito(cod_requisito=8265,cod_asig=9265)
+    insert_requisito(invApliII)
+    enfComIII= Requisito(cod_requisito=8263,cod_asig=9376)
+    insert_requisito(enfComIII)
+    adminServ= Requisito(cod_requisito=8263,cod_asig=9377)
+    insert_requisito(adminServ)
+    
+    #Decimo semestre
+    pasantias_1= Requisito(cod_requisito=8263,cod_asig=100267)
+    insert_requisito(pasantias_1)
+    pasantias_2= Requisito(cod_requisito=8265,cod_asig=100267)
+    insert_requisito(pasantias_2)
+    pasantias_3= Requisito(cod_requisito=9265,cod_asig=100267)
+    insert_requisito(pasantias_3)
+    teg_1 = Requisito(cod_requisito=8265,cod_asig=100268)
+    insert_requisito(teg_1)
+    teg_2 = Requisito(cod_requisito=9265,cod_asig=100268)
+    insert_requisito(teg_2)
+    
+if __name__ == "__main__":
+    asignaturas_enfermeria()
     app.run(debug=True)
     
