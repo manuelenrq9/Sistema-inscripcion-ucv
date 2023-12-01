@@ -12,9 +12,15 @@
 
     }
 
-    h1{
+    h3{
         text-align: center;
     }
+
+    .input-field{
+        margin: 10px auto;
+        text-align: center;
+      }
+
   </style>
 {% endblock %}
 
@@ -40,32 +46,34 @@
     <br>
     <br>
 
-    <h1 >Selecciona asignaturas a inscribir </h1>
-    <form id="form" method="POST" action="/inscripcion_regular/{{estudiante.cod_estudiante}}"></form>
+    <h3 >Selecciona asignaturas a inscribir </h3>
     <div class="table-container">
         <table>
           <tr>
             <th>Código</th>
             <th>Nombre</th>
-            <th>Acción</th>
           </tr>
           
           {% for asignatura in asignaturas %}
           <tr>
             <td>{{asignatura.cod_asig}}:</td>
             <td>{{asignatura.nombre}}</td>
-            <div>
-                <input type="hidden" name="ASIGNATURA" id="ASIGNATURA" value="{{asignatura.cod_asig}}">
-            </div>
-            <td><button class="button" type="submit">Inscribir</button></td>
-             
           </tr>
         
           {% endfor%}
         </table>
       </div>
+      <br>
+      <br>
+    <form id="form" method="POST" action="/inscripcion_regular/{{estudiante.cod_estudiante}}" >
+        <h3>Ingrese el codigo de la asignatura que desee inscribir</h3>
+        <input type="text" id="ASIGNATURA" name="ASIGNATURA">
+        <button class="button" type="submit" onclick="verificarAsignatura(asignaturas)">Inscribir</button> 
+        <h2 >{{mensaje}}</h2>
+        
     </form>
 </div>
+
 
 
 {% endblock %}

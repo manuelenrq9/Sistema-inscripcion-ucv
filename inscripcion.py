@@ -212,6 +212,7 @@ def buscar_regular():
     
 @app.route('/inscripcion_regular/<int:id>', methods=['GET', 'POST'])
 def inscribir_regular(id):
+    mensaje = ''
     estudiante = Estudiante.query.get_or_404(id)
     # Obtener las calificaciones aprobadas
     aprobados = Calificacion.query.filter_by(aprobado=True).all()
@@ -222,14 +223,50 @@ def inscribir_regular(id):
     # Obtener los códigos de asignatura cuyos requisitos estén aprobados
     requisitos_aprobados = Requisito.query.filter(Requisito.cod_requisito.in_(codigos_aprobados)).all()
     codigos_requisitos = [codigo.cod_asig for codigo in requisitos_aprobados]
+    
+    #Obtener los codigos de asignatura de las asignaturas que el estudiante este cursando 
+    cursando =  Cursando.query.filter_by(cod_estudiante=estudiante.cod_estudiante).all()
+    codigos_cursando = [codigo.cod_asig for codigo in cursando]
 
     # Obtener las asignaturas cuyos códigos estén en codigos_requisitos_aprobados y que no estén en codigos_aprobados
-    asignaturas = Asignatura.query.filter(and_(Asignatura.cod_asig.in_(codigos_requisitos), ~Asignatura.cod_asig.in_(codigos_aprobados))).all()
+    asignaturas = Asignatura.query.filter(and_(Asignatura.cod_asig.in_(codigos_requisitos), ~Asignatura.cod_asig.in_(codigos_aprobados), ~Asignatura.cod_asig.in_(codigos_cursando))).all()
     if request.method == 'POST':
-        asignatura = request.form['ASIGNATURA']
-        print(asignatura)
+        cod_asignatura = request.form['ASIGNATURA']
+        cod_asignatura = int(cod_asignatura)
+        asignatura_cod = [codigo.cod_asig for codigo in asignaturas]
+        if (cod_asignatura in asignatura_cod):
+            regular_cursando = Cursando(cod_estudiante=estudiante.cod_estudiante,cod_asig=cod_asignatura)  
+            print(regular_cursando)  
+            try:
+                db.session.add(regular_cursando)
+                db.session.commit()
+                # Obtener las calificaciones aprobadas
+                aprobados = Calificacion.query.filter_by(aprobado=True).all()
+        
+                # Obtener los códigos de asignatura de las calificaciones aprobadas
+                codigos_aprobados = [calificacion.cod_asig for calificacion in aprobados]
+
+                # Obtener los códigos de asignatura cuyos requisitos estén aprobados
+                requisitos_aprobados = Requisito.query.filter(Requisito.cod_requisito.in_(codigos_aprobados)).all()
+                codigos_requisitos = [codigo.cod_asig for codigo in requisitos_aprobados]
+                
+                #Obtener los codigos de asignatura de las asignaturas que el estudiante este cursando 
+                cursando =  Cursando.query.filter_by(cod_estudiante=estudiante.cod_estudiante).all()
+                codigos_cursando = [codigo.cod_asig for codigo in cursando]
+               
+               
+                asignaturas = Asignatura.query.filter(and_(Asignatura.cod_asig.in_(codigos_requisitos), ~Asignatura.cod_asig.in_(codigos_aprobados), ~Asignatura.cod_asig.in_(codigos_cursando))).all()
+                mensaje='Asignatura inscrita correctamente'
+                return render_template('inscripcion_regular.html', estudiante=estudiante, asignaturas=asignaturas,mensaje=mensaje)
+            
+            except Exception as e:
+                mensaje='No se pudo inscribir la asignatura solicitada'
+                return render_template('inscripcion_regular.html', estudiante=estudiante, asignaturas=asignaturas,mensaje=mensaje)   
+        else:
+            mensaje='No se pudo inscribir la asignatura solicitada'
+            return render_template('inscripcion_regular.html', estudiante=estudiante, asignaturas=asignaturas,mensaje=mensaje)
     else:
-        return render_template('inscripcion_regular.html', estudiante=estudiante, asignaturas=asignaturas)
+        return render_template('inscripcion_regular.html', estudiante=estudiante, asignaturas=asignaturas,mensaje=mensaje)
 
 
 
