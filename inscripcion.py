@@ -226,10 +226,13 @@ def inscribir_regular(id):
     # Obtener las asignaturas cuyos códigos estén en codigos_requisitos_aprobados y que no estén en codigos_aprobados
     asignaturas = Asignatura.query.filter(and_(Asignatura.cod_asig.in_(codigos_requisitos), ~Asignatura.cod_asig.in_(codigos_aprobados))).all()
     if request.method == 'POST':
-        pass
+        asignatura = request.form['ASIGNATURA']
+        print(asignatura)
     else:
         return render_template('inscripcion_regular.html', estudiante=estudiante, asignaturas=asignaturas)
-    
+
+
+
 
 @app.route('/delete/<int:id>')
 def delete(id):

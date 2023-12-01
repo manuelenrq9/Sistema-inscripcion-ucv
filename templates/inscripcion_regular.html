@@ -41,6 +41,7 @@
     <br>
 
     <h1 >Selecciona asignaturas a inscribir </h1>
+    <form id="form" method="POST" action="/inscripcion_regular/{{estudiante.cod_estudiante}}"></form>
     <div class="table-container">
         <table>
           <tr>
@@ -48,14 +49,23 @@
             <th>Nombre</th>
             <th>Acción</th>
           </tr>
+          
           {% for asignatura in asignaturas %}
           <tr>
             <td>{{asignatura.cod_asig}}:</td>
             <td>{{asignatura.nombre}}</td>
-            <td><button>Inscribir</button></td>
+            <div>
+                <input type="hidden" name="ASIGNATURA" id="ASIGNATURA" value="{{asignatura.cod_asig}}">
+            </div>
+            <td><button class="button" type="submit">Inscribir</button></td>
+             
           </tr>
+        
           {% endfor%}
         </table>
       </div>
+    </form>
 </div>
+
+
 {% endblock %}
