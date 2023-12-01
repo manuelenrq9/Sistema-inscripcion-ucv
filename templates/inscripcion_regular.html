@@ -67,7 +67,7 @@
       <br>
     <form id="form" method="POST" action="/inscripcion_regular/{{estudiante.cod_estudiante}}" >
         <h3>Ingrese el codigo de la asignatura que desee inscribir</h3>
-        <input type="text" id="ASIGNATURA" name="ASIGNATURA">
+        <input type="number" id="ASIGNATURA" name="ASIGNATURA">
         <button class="button" type="submit" onclick="verificarAsignatura(asignaturas)">Inscribir</button> 
         <h2 >{{mensaje}}</h2>
         
