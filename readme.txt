@@ -9,3 +9,7 @@ python inscripcion.py
 
 Salir de la terminal de python:
 exit()
+
+reporte pdf:
+config = pdfkit.configuration(wkhtmltopdf='C:\Program Files\wkhtmltopdf')
+C:\Program Files\wkhtmltopdf

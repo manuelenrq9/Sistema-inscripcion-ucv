@@ -1,7 +1,11 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, make_response
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import and_
+import pdfkit
+path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -84,7 +88,7 @@ class Requisito(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def index():
         return render_template('menu_principal.html')
-
+    
 @app.route('/nuevo_ingreso', methods=['POST','GET'])
 def nuevoIngreso():
     if request.method == 'POST':
@@ -112,8 +116,7 @@ def nuevoIngreso():
             
             db.session.add_all([bioquimica, morfofisiologiaI, socioantropologia,evTendencia,desPersonal,comLengua])
             db.session.commit()
-            
-            return redirect('/')
+        
         except Exception as e:
              print(e)
              return 'Hubo un problema añadiendo al estudiante: ' + str(e)
@@ -154,7 +157,13 @@ def info_estudiante(id):
     codigos_asignaturas = [curso.cod_asig for curso in cursando]
     asignaturas = Asignatura.query.filter(Asignatura.cod_asig.in_(codigos_asignaturas)).all()
     if request.method == 'POST':
-        pass
+        res=render_template('reporte.html', estudiante=estudiante, asignaturas=asignaturas)
+        responsestring = pdfkit.from_string(res,False)
+        response = make_response(responsestring)
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = 'attachment;filename=output.pdf'
+        return response
+        
     else:
         # Consulta para obtener solo los registros de asignaturas que esté cursando el estudiante
         return render_template('info_estudiante.html', asignaturas=asignaturas, estudiante=estudiante)
