@@ -302,21 +302,28 @@ def update(id):
 def insert_estudiantes_from_excel(file_path):
     # Read the Excel file
     df = pd.read_excel(file_path)
-    print(df) 
     # Iterate through the rows and insert the data into the database
     for index, row in df.iterrows():
-        nombre = row['Nombre']
         cedula = row['Cedula']
-        nacimiento = row['Nacimiento']
-        telefono = row['Telefono']
-        correo = row['Correo']
-        direccion = row['Direccion']
-        forma_ingreso = row['Forma_ingreso']
-        # Add other columns as needed
-        nuevo_estudiante = Estudiante(nombre=nombre, cedula=cedula, nacimiento=nacimiento, telefono=telefono, correo=correo, fecha_inscripcion=datetime.utcnow(), direccion=direccion, forma_ingreso=forma_ingreso) # Add other columns as needed
         with app.app_context():
-            db.session.add(nuevo_estudiante)
-            db.session.commit()
+            # Check if the student with the same cedula already exists in the database
+            existing_student = Estudiante.query.filter_by(cedula=cedula).first()
+            if existing_student is None:
+                # If the student does not exist, insert a new record
+                nombre = row['Nombre']
+                nacimiento = row['Nacimiento']
+                telefono = row['Telefono']
+                correo = row['Correo']
+                direccion = row['Direccion']
+                forma_ingreso = row['Forma_ingreso']
+                # Add other columns as needed
+                nuevo_estudiante = Estudiante(nombre=nombre, cedula=cedula, nacimiento=nacimiento, telefono=telefono, correo=correo, direccion=direccion, forma_ingreso=forma_ingreso)
+                
+                db.session.add(nuevo_estudiante)
+                db.session.commit()
+            else:
+                # If the student already exists, you can choose to update the existing record or skip the insertion
+                pass
 
 def insert_asignatura(asignatura):
     with app.app_context():
@@ -584,7 +591,6 @@ if __name__ == "__main__":
     asignaturas_enfermeria()
     requisitos_enfermeria()
     est_excel = 'estudiantes.xlsx'
-    print(est_excel)
     insert_estudiantes_from_excel(est_excel)
     app.run(debug=True)
     
