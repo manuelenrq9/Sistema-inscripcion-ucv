@@ -9,3 +9,6 @@ python inscripcion.py
 
 Salir de la terminal de python:
 exit()
+
+pip install pandas
+pip install openpyxl

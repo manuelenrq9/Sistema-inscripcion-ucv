@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import and_
+import pandas as pd
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -297,6 +298,25 @@ def update(id):
 
     else:
         return render_template('update.html', task=task)
+    
+def insert_estudiantes_from_excel(file_path):
+    # Read the Excel file
+    df = pd.read_excel(file_path)
+    print(df) 
+    # Iterate through the rows and insert the data into the database
+    for index, row in df.iterrows():
+        nombre = row['Nombre']
+        cedula = row['Cedula']
+        nacimiento = row['Nacimiento']
+        telefono = row['Telefono']
+        correo = row['Correo']
+        direccion = row['Direccion']
+        forma_ingreso = row['Forma_ingreso']
+        # Add other columns as needed
+        nuevo_estudiante = Estudiante(nombre=nombre, cedula=cedula, nacimiento=nacimiento, telefono=telefono, correo=correo, fecha_inscripcion=datetime.utcnow(), direccion=direccion, forma_ingreso=forma_ingreso) # Add other columns as needed
+        with app.app_context():
+            db.session.add(nuevo_estudiante)
+            db.session.commit()
 
 def insert_asignatura(asignatura):
     with app.app_context():
@@ -563,5 +583,8 @@ def requisitos_enfermeria():
 if __name__ == "__main__":
     asignaturas_enfermeria()
     requisitos_enfermeria()
+    est_excel = 'estudiantes.xlsx'
+    print(est_excel)
+    insert_estudiantes_from_excel(est_excel)
     app.run(debug=True)
     
