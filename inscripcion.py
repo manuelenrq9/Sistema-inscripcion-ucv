@@ -58,10 +58,12 @@ class Cursando(db.Model):
 
 
 class Calificacion(db.Model):
-    cod_estudiante = db.Column(db.Integer, db.ForeignKey('estudiante.cod_estudiante'), primary_key=True)
-    cod_asig = db.Column(db.Integer, db.ForeignKey('asignatura.cod_asig'), primary_key=True)
-    nota = db.Column(db.Integer)
-    aprobado = db.Column(db.Boolean)
+    __tablename__ = 'calificacion'
+    id = db.Column(db.Integer, primary_key=True)
+    cod_estudiante = db.Column(db.Integer, db.ForeignKey('estudiante.cod_estudiante'), nullable=False)
+    cod_asig = db.Column(db.Integer, db.ForeignKey('asignatura.cod_asig'), nullable=False)
+    nota = db.Column(db.Integer, nullable=False)
+    aprobado = db.Column(db.Boolean, nullable=False)
     
     def __init__(self, cod_estudiante, cod_asig, nota):
         self.cod_estudiante = cod_estudiante
@@ -216,7 +218,7 @@ def inscribir_regular(id):
     mensaje = ''
     estudiante = Estudiante.query.get_or_404(id)
     # Obtener las calificaciones aprobadas
-    aprobados = Calificacion.query.filter_by(aprobado=True).all()
+    aprobados = Calificacion.query.filter((Calificacion.aprobado == True) & (Calificacion.cod_estudiante == id)).all()
         
     # Obtener los códigos de asignatura de las calificaciones aprobadas
     codigos_aprobados = [calificacion.cod_asig for calificacion in aprobados]
@@ -224,6 +226,7 @@ def inscribir_regular(id):
     # Obtener los códigos de asignatura cuyos requisitos estén aprobados
     requisitos_aprobados = Requisito.query.filter(Requisito.cod_requisito.in_(codigos_aprobados)).all()
     codigos_requisitos = [codigo.cod_asig for codigo in requisitos_aprobados]
+    print(codigos_requisitos)
     
     #Obtener los codigos de asignatura de las asignaturas que el estudiante este cursando 
     cursando =  Cursando.query.filter_by(cod_estudiante=estudiante.cod_estudiante).all()
@@ -231,6 +234,7 @@ def inscribir_regular(id):
 
     # Obtener las asignaturas cuyos códigos estén en codigos_requisitos_aprobados y que no estén en codigos_aprobados
     asignaturas = Asignatura.query.filter(and_(Asignatura.cod_asig.in_(codigos_requisitos), ~Asignatura.cod_asig.in_(codigos_aprobados), ~Asignatura.cod_asig.in_(codigos_cursando))).all()
+   
     if request.method == 'POST':
         cod_asignatura = request.form['ASIGNATURA']
         cod_asignatura = int(cod_asignatura)
@@ -242,7 +246,7 @@ def inscribir_regular(id):
                 db.session.add(regular_cursando)
                 db.session.commit()
                 # Obtener las calificaciones aprobadas
-                aprobados = Calificacion.query.filter_by(aprobado=True).all()
+                aprobados = Calificacion.query.filter((Calificacion.aprobado == True) & (Calificacion.cod_estudiante == id)).all()
         
                 # Obtener los códigos de asignatura de las calificaciones aprobadas
                 codigos_aprobados = [calificacion.cod_asig for calificacion in aprobados]
@@ -298,6 +302,24 @@ def update(id):
 
     else:
         return render_template('update.html', task=task)
+    
+def insert_calificaciones_from_excel(file_path):
+    # Read the Excel file
+    df = pd.read_excel(file_path)
+    # Iterate through the rows and insert the data into the database
+    for index, row in df.iterrows():
+        cod_estudiante = row['cod_estudiante']
+        cod_asig = row['cod_asig']
+        with app.app_context():
+            existing_record = Calificacion.query.filter_by(cod_estudiante=int(cod_estudiante), cod_asig=int(cod_asig)).first()
+            if existing_record is None:
+                nota = row['nota']
+                nueva_calificacion =  Calificacion(cod_estudiante=int(cod_estudiante), cod_asig=int(cod_asig), nota=int(nota))
+                db.session.add(nueva_calificacion)
+                db.session.commit()
+            else:
+                pass
+                       
     
 def insert_estudiantes_from_excel(file_path):
     # Read the Excel file
@@ -591,6 +613,8 @@ if __name__ == "__main__":
     asignaturas_enfermeria()
     requisitos_enfermeria()
     est_excel = 'estudiantes.xlsx'
+    cal_excel = 'calificaciones.xlsx'
     insert_estudiantes_from_excel(est_excel)
+    insert_calificaciones_from_excel(cal_excel)
     app.run(debug=True)
     
